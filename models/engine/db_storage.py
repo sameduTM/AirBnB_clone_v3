@@ -81,7 +81,8 @@ class DBStorage:
         self.__session.remove()
 
     def get(self, cls, id):
-        """method to retrieve one object"""
+        """method to retrieve one object
+        """
         new_dict = {}
         objs = self.all(cls)
         for key, value in objs.items():
@@ -92,7 +93,8 @@ class DBStorage:
         return None
 
     def count(self, cls=None):
-        """method to count of objects in storage"""
+        """method to count of objects in storage
+        """
         if cls:
             return len(self.all(cls))
         else:
