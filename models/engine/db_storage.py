@@ -86,7 +86,8 @@ class DBStorage:
             for key, value in self.all(cls).items():
                 obj_id = key.split('.')[1]
                 if obj_id == id:
-                    return f"[{cls.__name__}] ({id}) {value.__dict__}"
+                    return "[{}] ({}) {}".format(cls.__name__,
+                                                 id, value.__dict__)
                 return None
         return None
 
