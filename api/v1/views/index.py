@@ -7,7 +7,8 @@ from flask import jsonify, json, current_app
 @app_views.route('/status')
 def status():
     """route `/status` on the object app_views that returns a JSON"""
-    o_dct = {"status": "OK"}
+    o_dct = {"status": "OK",
+            }
 
     return current_app.response_class(json.dumps(o_dct, indent=2),
                                       mimetype="application/json")
