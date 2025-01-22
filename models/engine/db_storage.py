@@ -88,7 +88,7 @@ class DBStorage:
                 if obj_id == id:
                     return "[{}] ({}) {}".format(cls.__name__,
                                                  id, value.__dict__)
-                return None
+            return None
         return None
 
     def count(self, cls=None):

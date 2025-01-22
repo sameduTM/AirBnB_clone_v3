@@ -83,7 +83,7 @@ class FileStorage:
                 obj_id = key.split('.')[1]
                 if obj_id == id:
                     return value
-                return None
+            return None
         return None
 
     def count(self, cls=None):

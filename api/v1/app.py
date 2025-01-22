@@ -30,4 +30,4 @@ def page_not_found(error):
 
 
 if __name__ == "__main__":
-    app.run(host=api_host, port=api_port, threaded=True)
+    app.run(host=api_host, port=api_port, threaded=True, debug=True)
