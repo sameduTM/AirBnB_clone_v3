@@ -29,7 +29,7 @@ def getState(state_id):
         if obj_id == state_id:
             val = val.to_dict()
             return make_response(jsonify(val))
-    return make_response(jsonify({"error": "Not found"}), 404)
+    abort(404)
 
 
 @app_views.route('/states/<state_id>', methods=['DELETE'],
@@ -43,7 +43,7 @@ def delete(state_id):
             storage.delete(val)
             storage.save()
             return make_response(jsonify({}), 200)
-    return make_response(jsonify({"error": "Not found"}), 404)
+    abort(404)
 
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
@@ -77,4 +77,4 @@ def update(state_id):
             value.name = data["name"]
             storage.save()
             return make_response(jsonify(value.to_dict()), 200)
-    return make_response(jsonify({"error": "Not found"}), 404)
+    abort(404)
