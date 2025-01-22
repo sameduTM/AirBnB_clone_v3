@@ -54,7 +54,7 @@ def createState():
         data = request.get_json()
     except Exception as e:
         return make_response("Not a JSON", 400)
-    if not "name" in data:
+    if "name" not in data:
         return make_response("Missing name", 400)
     for key, value in data.items():
         setattr(new_state, key, value)
