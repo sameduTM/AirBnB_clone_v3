@@ -1,6 +1,9 @@
 #!/usr/bin/python3
 """main app of API"""
-from flask import Flask, current_app
+from flask import Flask
+from flask import abort
+from flask import make_response
+from flask import jsonify
 from models import storage
 from api.v1.views import app_views
 import os
@@ -24,7 +27,8 @@ def page_not_found(error):
     """a handler for 404 errors that returns a
     JSON-formatted 404 status code response.
     """
-    abort(404)
+    error_404 = {"error": "Not found"}
+    return make_response(jsonify(error_404), 404)
 
 
 if __name__ == "__main__":
