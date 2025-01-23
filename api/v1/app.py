@@ -24,9 +24,7 @@ def page_not_found(error):
     """a handler for 404 errors that returns a
     JSON-formatted 404 status code response.
     """
-    error_json = {"error": "Not found"}
-    return current_app.response_class(json.dumps(error_json, indent=2),
-                                      mimetype="application/json", status=404)
+    abort(404)
 
 
 if __name__ == "__main__":

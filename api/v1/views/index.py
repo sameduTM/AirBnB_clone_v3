@@ -7,11 +7,8 @@ from flask import jsonify, json, current_app
 @app_views.route('/status')
 def status():
     """route `/status` on the object app_views that returns a JSON"""
-    o_dct = {"status": "OK",
-            }
-
-    return current_app.response_class(json.dumps(o_dct, indent=2),
-                                      mimetype="application/json")
+    o_dct = {"status": "OK"}
+    return jsonify(o_dct)
 
 
 @app_views.route('/stats')
@@ -31,5 +28,4 @@ def stats():
                   "states": storage.count(State),
                   "users": storage.count(User),
                   }
-    return current_app.response_class(json.dumps(stats_dict, indent=2),
-                                      mimetype="application/json")
+    return jsonify(stats_dict)
