@@ -4,6 +4,7 @@
 from models import storage
 from models.state import State
 
+
 def wrapper_all_type(m_class):
     res = {}
     try:
