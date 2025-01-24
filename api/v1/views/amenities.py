@@ -58,7 +58,8 @@ def createAmenity():
         return make_response("Not a JSON", 400)
 
 
-@app_views.route('/amenities/<amenity_id>', methods=['PUT'], strict_slashes=False)
+@app_views.route('/amenities/<amenity_id>', methods=['PUT'],
+                 strict_slashes=False)
 def updateAmenity(amenity_id):
     """update Amenity object"""
     all_amn = storage.all(Amenity)
