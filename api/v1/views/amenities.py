@@ -21,7 +21,10 @@ def getAmenities():
 def getAmenity(amenity_id):
     """retrieve Amenity object"""
     all_amn = storage.all(Amenity)
-    return [val.to_dict() for val in all_amn.values() if val.id == amenity_id]
+    for val in all_amn.values():
+        if val.id == amenity_id:
+            return jsonify(val.to_dict())
+    return make_response({"error": "Not found"}, 404)
 
 
 @app_views.route('/amenities/<amenity_id>', methods=['DELETE'],
@@ -31,7 +34,8 @@ def deleteAmenity(amenity_id):
     all_amn = storage.all(Amenity)
     for val in all_amn.values():
         if val.id == amenity_id:
-            # storage.delete(val)
+            storage.delete(val)
+            storage.save()
             return make_response(jsonify({}), 200)
     return make_response({"error": "Not found"}, 404)
 
