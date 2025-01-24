@@ -18,12 +18,12 @@ def getCities(state_id):
     all_states = storage.all(State)
     all_cities = storage.all(City)
     for val in all_states.values():
-    	state_ids.append(val.id)
+        state_ids.append(val.id)
     if state_id not in state_ids:
-    	return make_response({"error": "Not found"}, 404)
+        return make_response({"error": "Not found"}, 404)
     for val in all_cities.values():
-    	if state_id == val.state_id:
-    		city_list.append(val.to_dict())
+        if state_id == val.state_id:
+            city_list.append(val.to_dict())
     return jsonify(city_list)
 
 
@@ -55,12 +55,19 @@ def deleteCity(city_id):
 def createCity(state_id):
     """create a City object"""
     from models.city import City
+    from models.state import State
     try:
         data = request.get_json()
         if "name" not in data:
             return make_response("Missing name", 400)
     except Exception as e:
         return make_response("Not a JSON", 400)
+    all_states = storage.all(State)
+    state_ids = []
+    for val in all_states.values():
+        state_ids.append(val.id)
+    if state_id not in state_ids:
+        return make_response({"error": "Not found"}, 404)
     new_city = City()
     data['state_id'] = state_id
     for key, value in data.items():
