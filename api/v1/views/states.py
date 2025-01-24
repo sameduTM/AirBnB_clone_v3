@@ -25,25 +25,23 @@ def getState(state_id):
     """retrieve a state object"""
     all_states = storage.all(State)
     for key, val in all_states.items():
-        obj_id = key.split('.')[1]
-        if obj_id == state_id:
+        if val.id == state_id:
             val = val.to_dict()
             return make_response(jsonify(val))
-    abort(404)
+    return make_response(jsonify({"error": "Not found"}), 404)
 
 
 @app_views.route('/states/<state_id>', methods=['DELETE'],
                  strict_slashes=False)
-def delete(state_id):
+def deleteState(state_id):
     """deletes a state object"""
     all_states = storage.all(State)
     for key, val in all_states.items():
-        obj_id = key.split('.')[1]
-        if obj_id == state_id:
+        if val.id == state_id:
             storage.delete(val)
             storage.save()
             return make_response(jsonify({}), 200)
-    abort(404)
+    return make_response(jsonify({"error": "Not found"}), 404)
 
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
@@ -64,7 +62,7 @@ def createState():
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
-def update(state_id):
+def updateState(state_id):
     """update a state object"""
     all_states = storage.all(State)
     try:
@@ -72,9 +70,8 @@ def update(state_id):
     except Exception as e:
         return make_response("Not a JSON", 400)
     for key, value in all_states.items():
-        obj_id = key.split('.')[1]
-        if obj_id == state_id:
+        if value.id == state_id:
             value.name = data["name"]
             storage.save()
             return make_response(jsonify(value.to_dict()), 200)
-    abort(404)
+    return make_response(jsonify({"error": "Not found"}), 404)

@@ -27,8 +27,7 @@ def page_not_found(error):
     """a handler for 404 errors that returns a
     JSON-formatted 404 status code response.
     """
-    error_404 = {"error": "Not found"}
-    return make_response(jsonify(error_404), 404)
+    return make_response(jsonify({"error": "Not found"}), 400)
 
 
 if __name__ == "__main__":
