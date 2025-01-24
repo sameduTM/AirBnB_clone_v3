@@ -63,12 +63,18 @@ def createAmenity():
 def updateAmenity(amenity_id):
     """update Amenity object"""
     all_amn = storage.all(Amenity)
+    all_ids = []
+    for val in all_amn.values():
+        all_ids.append(val.id)
+    if amenity_id not in all_ids:
+        return make_response(jsonify({"error": "Not found"}), 404)
     try:
         data = request.get_json()
-        for val in all_amn.values():
-            if val.id == amenity_id:
-                for k, v in data.items():
-                    setattr(val, k, v)
-                return make_response(jsonify(val.to_dict()), 200)
+        for v in all_amn.values():
+            if amenity_id == v.id:
+                for key, value in data.items():
+                    setattr(v, key, value)
+                storage.save()
+                return make_response(jsonify(v.to_dict()), 200)
     except Exception as e:
-        return make_response("Not a JSON", 404)
+        return make_response("Not a JSON", 400)
