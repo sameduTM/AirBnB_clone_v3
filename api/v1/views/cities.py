@@ -2,6 +2,7 @@
 """view for City objects that handles all default RESTFul API actions"""
 from models import storage
 from models.city import City
+from models.state import State
 from api.v1.views import app_views
 from flask import make_response
 from flask import jsonify
@@ -13,13 +14,17 @@ from flask import request
 def getCities(state_id):
     """retrieves the list of all City objects of a State"""
     city_list = []
+    state_ids = []
+    all_states = storage.all(State)
     all_cities = storage.all(City)
-    for key, value in all_cities.items():
-        if state_id == value.state_id:
-            city_list.append(value.to_dict())
-    if len(city_list) > 0:
-        return jsonify(city_list)
-    return make_response(jsonify({"error": "Not found"}), 404)
+    for val in all_states.values():
+    	state_ids.append(val.id)
+    if state_id not in state_ids:
+    	return make_response({"error": "Not found"}, 404)
+    for val in all_cities.values():
+    	if state_id == val.state_id:
+    		city_list.append(val.to_dict())
+    return jsonify(city_list)
 
 
 @app_views.route('/cities/<city_id>')
