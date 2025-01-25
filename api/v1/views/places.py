@@ -86,6 +86,7 @@ def updatePlace(place_id):
             if val.id == place_id:
                 for key, value in data.items():
                     setattr(val, key, value)
+                storage.save()
                 return make_response(jsonify(val.to_dict()), 200)
     except Exception as e:
         return make_response("Not a JSON", 400)
