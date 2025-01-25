@@ -10,7 +10,8 @@ from models.user import User
 from flask import request
 
 
-@app_views.route('/cities/<city_id>/places', methods=['GET'], strict_slashes=False)
+@app_views.route('/cities/<city_id>/places', methods=['GET'],
+	strict_slashes=False)
 def getPlaces(city_id):
 	"""retrieve list of all Place objects of a City"""
 	all_places = storage.all(Place)
@@ -47,7 +48,8 @@ def deletePlace(place_id):
 	return make_response(jsonify({"error": "Not found"}), 404)
 
 
-@app_views.route('/cities/<city_id>/places', methods=['POST'], strict_slashes=False)
+@app_views.route('/cities/<city_id>/places', methods=['POST'],
+	strict_slashes=False)
 def createPlace(city_id):
 	"""create a Place"""
 	all_cities = storage.all(City)
