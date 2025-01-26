@@ -65,8 +65,11 @@ def createReview(place_id):
             return make_response(jsonify({"error": "Not found"}), 404)
         if "user_id" not in data:
             return make_response("Missing user_id", 400)
+        if data['user_id'] not in all_user_ids:
+            return make_response(jsonify({"error": "Not found"}), 404)
         if "text" not in data:
             return make_response("Missing text", 400)
+        data['place_id'] = place_id
         new_review = Review(**data)
         storage.new(new_review)
         storage.save()

@@ -5,14 +5,18 @@ import json
 import requests
 
 if __name__ == "__main__":
+    
+    place_id = "nop"
+    
+    """ Get user
+    """
     r = requests.get("http://0.0.0.0:5000/api/v1/users")
     r_j = r.json()
-    print(type(r_j))
-    print(len(r_j))
-    for user_j in r_j:
-        if user_j.get('email') in ["a@a.com", "b@b.com", "c@c.com", "d@d.com"]:
-            print("OK")
-        else:
-            print("Missing: {}".format(user_j.get('email')))
-        if user_j.get('id') is None:
-            print("Missing ID for User: {}".format(user_j.get('name')))
+    user_id = r_j[0].get('id')
+
+    
+    """ POST /api/v1/places/<place_id>/reviews
+    """
+    r = requests.post("http://0.0.0.0:5000/api/v1/places/{}/reviews/".format(place_id), data=json.dumps({ 'user_id': user_id, 'text': "NewReview" }), headers={ 'Content-Type': "application/json" })
+    print(r.status_code)
+    
