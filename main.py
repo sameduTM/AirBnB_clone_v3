@@ -5,9 +5,14 @@ import json
 import requests
 
 if __name__ == "__main__":
-    place_id = "nop"
-
-    """ PUT /api/v1/cities/<place_id>
-    """
-    r = requests.put("http://0.0.0.0:5000/api/v1/places/{}".format(place_id), data=json.dumps({ 'name': "NewName" }), headers={ 'Content-Type': "application/json" })
-    print(r.status_code)
+    r = requests.get("http://0.0.0.0:5000/api/v1/users")
+    r_j = r.json()
+    print(type(r_j))
+    print(len(r_j))
+    for user_j in r_j:
+        if user_j.get('email') in ["a@a.com", "b@b.com", "c@c.com", "d@d.com"]:
+            print("OK")
+        else:
+            print("Missing: {}".format(user_j.get('email')))
+        if user_j.get('id') is None:
+            print("Missing ID for User: {}".format(user_j.get('name')))
