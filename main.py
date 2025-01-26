@@ -5,10 +5,9 @@ import json
 import requests
 
 if __name__ == "__main__":
-    """ POST /api/v1/users/
+    place_id = "nop"
+
+    """ PUT /api/v1/cities/<place_id>
     """
-    r = requests.post("http://0.0.0.0:5000/api/v1/users/", data=json.dumps({ 'email': "f@f.com", 'password': "pwdf", 'first_name': "fnf", 'last_name': "lnf" }), headers={ 'Content-Type': "application/json" })
+    r = requests.put("http://0.0.0.0:5000/api/v1/places/{}".format(place_id), data=json.dumps({ 'name': "NewName" }), headers={ 'Content-Type': "application/json" })
     print(r.status_code)
-    r_j = r.json()
-    print(r_j.get('id') is None)
-    print(r_j.get('email') == "f@f.com")

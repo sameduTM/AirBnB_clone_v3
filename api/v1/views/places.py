@@ -36,7 +36,8 @@ def getPlace(place_id):
     return make_response(jsonify({"error": "Not found"}), 404)
 
 
-@app_views.route('/places/<place_id>')
+@app_views.route('/places/<place_id>', methods=['DELETE'],
+                 strict_slashes=False)
 def deletePlace(place_id):
     """delete a Place object"""
     all_places = storage.all(Place)
@@ -53,6 +54,7 @@ def deletePlace(place_id):
 def createPlace(city_id):
     """create a Place"""
     all_cities = storage.all(City)
+    all_users = storage.all(User)
     places_list = []
     city_ids = [val.id for val in all_cities.values()]
     user_ids = [val.id for val in all_users.values()]
@@ -62,17 +64,19 @@ def createPlace(city_id):
         data = request.get_json()
         if "user_id" not in data:
             return make_response("Missing user_id", 400)
-        if "user_id" not in user_ids:
+        if data['user_id'] not in user_ids:
             return make_response(jsonify({"error": "Not found"}), 404)
         if "name" not in data:
             return make_response("Missing name", 400)
-        new_place = Place()
+        data['city_id'] = city_id
+        new_place = Place(**data)
         for key, value in data.items():
             setattr(new_place, key, value)
             storage.new(new_place)
             storage.save()
             return make_response(new_place.to_dict(), 201)
     except Exception as e:
+        print(e)
         return make_response("Not a JSON", 400)
 
 
@@ -88,5 +92,6 @@ def updatePlace(place_id):
                     setattr(val, key, value)
                 storage.save()
                 return make_response(jsonify(val.to_dict()), 200)
+        return make_response(jsonify({"error": "Not found"}), 404)
     except Exception as e:
         return make_response("Not a JSON", 400)
