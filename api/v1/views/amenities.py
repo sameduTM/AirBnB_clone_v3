@@ -52,9 +52,9 @@ def createAmenity():
             return make_response("Missing name", 400)
         for key, val in data.items():
             setattr(new_amn, key, val)
-        storage.new(new_amn)
-        storage.save()
-        return make_response(jsonify(new_amn.to_dict()), 201)
+            storage.new(new_amn)
+            storage.save()
+            return make_response(jsonify(new_amn.to_dict()), 201)
     except Exception as e:
         return make_response("Not a JSON", 400)
 
