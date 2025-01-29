@@ -74,7 +74,7 @@ def createPlace(city_id):
             setattr(new_place, key, value)
             storage.new(new_place)
             storage.save()
-            return make_response(new_place.to_dict(), 201)
+            return make_response(jsonify(new_place.to_dict()), 201)
     except Exception as e:
         print(e)
         return make_response("Not a JSON", 400)
