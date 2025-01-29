@@ -8,6 +8,7 @@ from flask import make_response
 from flask import request
 
 
+
 @app_views.route('/users', methods=['GET'], strict_slashes=False)
 def getUsers():
     """retrieves the list of all User objects"""
