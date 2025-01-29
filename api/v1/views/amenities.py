@@ -13,7 +13,7 @@ def getAmenities():
     """retrieve the list of all Amenity objects"""
     all_amenities = storage.all(Amenity)
 
-    list_amenities =  [val.to_dict() for val in all_amenities.values()]
+    list_amenities = [val.to_dict() for val in all_amenities.values()]
     return jsonify(list_amenities)
 
 
