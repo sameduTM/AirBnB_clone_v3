@@ -6,15 +6,15 @@ from api.v1.views import app_views
 from flask import jsonify
 from flask import make_response
 from flask import request
-
+from flask import abort
 
 
 @app_views.route('/users', methods=['GET'], strict_slashes=False)
 def getUsers():
     """retrieves the list of all User objects"""
     all_users = storage.all(User)
-    return [val.to_dict() for val in all_users.values()]
-
+    user_list = [val.to_dict() for val in all_users.values()]
+    return jsonify(user_list)
 
 @app_views.route('/users/<user_id>', methods=['GET'], strict_slashes=False)
 def getUser(user_id):
@@ -23,7 +23,7 @@ def getUser(user_id):
     for val in all_users.values():
         if val.id == user_id:
             return jsonify(val.to_dict())
-    return make_response(jsonify({"error": "Not found"}), 404)
+    abort(404)
 
 
 @app_views.route('/users/<user_id>', methods=['DELETE'], strict_slashes=False)
