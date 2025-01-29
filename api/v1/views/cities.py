@@ -83,12 +83,12 @@ def updateCity(city_id):
     all_cities = storage.all(City)
     try:
         data = request.get_json()
+        for val in all_cities.values():
+            if city_id == val.id:
+                for key, value in data.items():
+                    setattr(val, key, value)
+                    storage.save()
+                    return make_response(val.to_dict(), 200)
+        return make_response({"error": "Not found"}, 404)
     except Exception as e:
         return make_response("Not a JSON", 400)
-    for val in all_cities.values():
-        if city_id == val.id:
-            for key, value in data.items():
-                setattr(val, key, value)
-            storage.save()
-            return make_response(val.to_dict(), 200)
-    return make_response({"error": "Not found"}, 404)
