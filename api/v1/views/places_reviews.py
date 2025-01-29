@@ -71,9 +71,11 @@ def createReview(place_id):
             return make_response("Missing text", 400)
         data['place_id'] = place_id
         new_review = Review(**data)
-        storage.new(new_review)
-        storage.save()
-        return make_response(jsonify(new_review.to_dict()), 201)
+        for k, v in data.items():
+            setattr(new_review, k, v)
+            storage.new(new_review)
+            storage.save()
+            return make_response(jsonify(new_review.to_dict()), 201)
     except Exception as e:
         return make_response("Not a JSON", 400)
 
