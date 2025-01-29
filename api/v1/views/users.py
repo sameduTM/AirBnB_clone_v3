@@ -16,6 +16,7 @@ def getUsers():
     user_list = [val.to_dict() for val in all_users.values()]
     return jsonify(user_list)
 
+
 @app_views.route('/users/<user_id>', methods=['GET'], strict_slashes=False)
 def getUser(user_id):
     """retrieve a User object"""
@@ -23,7 +24,7 @@ def getUser(user_id):
     for val in all_users.values():
         if val.id == user_id:
             return jsonify(val.to_dict())
-    abort(404)
+    return make_response(jsonify({"error": "Not found"}), 404)
 
 
 @app_views.route('/users/<user_id>', methods=['DELETE'], strict_slashes=False)
@@ -70,5 +71,6 @@ def updateUser(user_id):
                     setattr(val, k, v)
                 storage.save()
                 return make_response(jsonify(val.to_dict()), 200)
+        return make_response(jsonify({"error": "Not found"}), 404)
     except Exception as e:
         return make_response("Not a JSON", 400)
