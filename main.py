@@ -1,11 +1,23 @@
 #!/usr/bin/python3
 """Testing file
 """
-import json
-import requests
+import hashlib
+import MySQLdb
+import sys
 
 if __name__ == "__main__":
-    """ PUT /api/v1/users/<user_id>
+    """ Access to database and get password TODO
     """
-    r = requests.put("http://0.0.0.0:5000/api/v1/users/{}".format("doesn_t_exist"), data=json.dumps({ 'first_name': "NewFirstName" }), headers={ 'Content-Type': "application/json" })
-    print(r.status_code)
+    user_email = "b@b.com"
+    clear_pwd = "pwdB"
+    hidden_pwd = hashlib.md5(clear_pwd.encode()).hexdigest()
+    
+    conn = MySQLdb.connect(host="localhost", port=3306, user=sys.argv[1], passwd=sys.argv[2], db=sys.argv[3], charset="utf8")
+    cur = conn.cursor()
+    cur.execute("SELECT password FROM users WHERE email = '{}' LIMIT 1".format(user_email))
+    query_rows = cur.fetchall()
+    for row in query_rows:
+        if hidden_pwd.lower() == row[0].lower():
+            print("OK")
+    cur.close()
+    conn.close()
