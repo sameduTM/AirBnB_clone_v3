@@ -1,23 +1,12 @@
 #!/usr/bin/python3
-"""Testing file
+"""Testing documentation of a module
 """
-import hashlib
-import MySQLdb
+from importlib import import_module
 import sys
 
-if __name__ == "__main__":
-    """ Access to database and get password TODO
-    """
-    user_email = "main@gmail.com"
-    clear_pwd = "yaGodNiAlot"
-    hidden_pwd = hashlib.md5(clear_pwd.encode()).hexdigest()
-    
-    conn = MySQLdb.connect(host="localhost", port=3306, user=sys.argv[1], passwd=sys.argv[2], db=sys.argv[3], charset="utf8")
-    cur = conn.cursor()
-    cur.execute("SELECT password FROM users WHERE email = '{}' LIMIT 1".format(user_email))
-    query_rows = cur.fetchall()
-    for row in query_rows:
-        if hidden_pwd.lower() == row[0].lower():
-            print("OK")
-    cur.close()
-    conn.close()
+m_imported = import_module(sys.argv[1])
+
+if m_imported.__doc__ is None:
+    print("No module documentation", end="")
+else:
+    print("OK", end="")

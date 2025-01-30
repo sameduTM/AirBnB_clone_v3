@@ -13,16 +13,13 @@ from flask import make_response
                  strict_slashes=False)
 def getPlaceAmenities(place_id):
     """retrieve the list of all Amenity objects of a Place"""
-    all_amenities = storage.all(Amenity)
-    all_places = storage.all(Place)
-    all_places_ids = [val.id for val in all_places.values()]
-    list_amenities = []
-    if place_id not in all_places_ids:
+    place = storage.get(Place, place_id)
+
+    if not place:
         return make_response(jsonify({"error": "Not found"}), 404)
-    for val in all_amenities.values():
-        if val.id == place_id:
-            list_amenities.append(val.to_dict())
-    return make_response(jsonify(list_amenities))
+    amenities_list = [amenity.to_dict() for amenity in place.amenities]
+
+    return make_response(jsonify(amenities_list))
 
 
 @app_views.route('/places/<place_id>/amenities/<amenity_id>',
