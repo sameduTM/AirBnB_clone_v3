@@ -34,7 +34,7 @@ def createPlaceAmenity(place_id, amenity_id):
 
     if not place or not amenity:
         return make_response(jsonify({"error": "Not found"}), 404)
-    
+
     if amenity in place.amenities:
         return make_response(jsonify(amenity.to_dict()), 200)
 
