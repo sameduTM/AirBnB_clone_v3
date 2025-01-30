@@ -28,7 +28,7 @@ class User(BaseModel, Base):
         """Initializes user"""
         super().__init__(*args, **kwargs)
         if 'password' in kwargs:
-            self.password = kwargs['password']  # Calls setter to hash password
+            self.password = kwargs['password']
 
     @staticmethod
     def hash_password(password):
@@ -38,11 +38,11 @@ class User(BaseModel, Base):
     @property
     def password(self):
         """Getter for password (returns hashed password)"""
-        return getattr(self, "_password", None)  # Use getattr instead of __dict__
+        return getattr(self, "_password", None)
 
     @password.setter
     def password(self, value):
         """Setter for password, hashes it before storing"""
         hashed_value = User.hash_password(
-            value)  # Explicitly call static method
-        setattr(self, "_password", hashed_value)  # Store properly
+            value)
+        setattr(self, "_password", hashed_value)
