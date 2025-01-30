@@ -42,7 +42,7 @@ def createPlaceAmenity(place_id, amenity_id):
 
 
 @app_views.route('/places/<place_id>/amenities/<amenity_id>',
-    methods=['DELETE'], strict_slashes=False)
+                 methods=['DELETE'], strict_slashes=False)
 def deletePlaceAmenity(place_id, amenity_id):
     """delete Amenity object to a Place"""
     place = storage.get(Place, place_id)
