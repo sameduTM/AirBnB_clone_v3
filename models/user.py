@@ -28,21 +28,23 @@ class User(BaseModel, Base):
         """Initializes user"""
         super().__init__(*args, **kwargs)
         if 'password' in kwargs:
-            self.password = kwargs['password']
+            self.password = password
 
     @staticmethod
     def hash_password(password):
         """Hashes password using MD5"""
+        if password is None:
+            return None
         return hashlib.md5(password.encode()).hexdigest()
 
     @property
     def password(self):
         """Getter for password (returns hashed password)"""
-        return getattr(self, "_password", None)
+        return self._password
 
     @password.setter
     def password(self, value):
         """Setter for password, hashes it before storing"""
         hashed_value = User.hash_password(
             value)
-        setattr(self, "_password", hashed_value)
+        self._password = hashed_value
